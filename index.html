@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Workout Tracker</title>
+    <title>LiftTracker Pro</title>
 
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
@@ -17,12 +17,12 @@
 
 <div class="app">
 
-    <!-- SIDEBAR -->
+    <!-- FROSTED SIDEBAR -->
     <aside id="sidebar" class="sidebar">
         <div class="sidebar-header">
             <div class="logo">
                 <span class="logo-icon">🏋️‍♂️</span>
-                <span class="logo-text">LiftTracker</span>
+                <span class="logo-text">LiftTracker Pro</span>
             </div>
             <button class="icon-btn close-btn" onclick="toggleSidebar()">✕</button>
         </div>
@@ -65,23 +65,25 @@
             <!-- DASHBOARD PAGE -->
             <section id="page-dashboard" class="page active">
 
-                <div class="cards-row">
-                    <div class="card stat-card">
-                        <h3>Total Volume (All Time)</h3>
+                <!-- 3-COLUMN COMPACT STAT GRID -->
+                <div class="stat-grid">
+                    <div class="stat-pill">
+                        <h4>Total Volume</h4>
                         <p id="statTotalVolume">0</p>
                     </div>
 
-                    <div class="card stat-card">
-                        <h3>Total Sets (All Time)</h3>
+                    <div class="stat-pill">
+                        <h4>Total Sets</h4>
                         <p id="statTotalSets">0</p>
                     </div>
 
-                    <div class="card stat-card">
-                        <h3>Exercises Tracked</h3>
+                    <div class="stat-pill">
+                        <h4>Exercises</h4>
                         <p id="statExercises">0</p>
                     </div>
                 </div>
 
+                <!-- CHARTS -->
                 <div class="card chart-card">
                     <h3>Volume Over Time</h3>
                     <canvas id="volumeChart"></canvas>
@@ -164,8 +166,8 @@
 
                     <h3>Theme</h3>
                     <div class="theme-row">
-                        <button class="theme-btn theme-blue active" onclick="setTheme('blue')">Electric Blue</button>
-                        <button class="theme-btn theme-dark" onclick="setTheme('dark')">Dark Focus</button>
+                        <button class="theme-btn theme-blue" onclick="setTheme('blue')">Electric Blue</button>
+                        <button class="theme-btn theme-dark active" onclick="setTheme('dark')">Dark Steel</button>
                         <button class="theme-btn theme-neon" onclick="setTheme('neon')">Neon Boost</button>
                     </div>
 
