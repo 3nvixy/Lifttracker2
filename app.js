@@ -16,72 +16,23 @@ function getTodayISO() {
 let currentDate = getTodayISO();
 let allWorkouts = JSON.parse(localStorage.getItem("allWorkouts")) || {};
 let allPRs = JSON.parse(localStorage.getItem("allPRs")) || {};
-let currentTheme = localStorage.getItem("theme") || "blue";
+let currentTheme = localStorage.getItem("theme") || "dark";
 
 let volumeChart = null;
 let setsChart = null;
 let prChart = null;
 
 /* ---------------------------------------------------------
-   DARK MODE
---------------------------------------------------------- */
-
-function applyDarkModeFromStorage() {
-    const mode = localStorage.getItem("darkMode");
-    if (mode === "on") document.body.classList.add("dark");
-}
-
-function toggleDarkMode() {
-    document.body.classList.toggle("dark");
-    localStorage.setItem("darkMode", document.body.classList.contains("dark") ? "on" : "off");
-}
-
-/* ---------------------------------------------------------
-   THEMES
---------------------------------------------------------- */
-
-function applyTheme(theme) {
-    const root = document.documentElement;
-
-    if (theme === "blue") {
-        root.style.setProperty("--primary", "#1976d2");
-        root.style.setProperty("--primary-light", "#00b0ff");
-        root.style.setProperty("--primary-soft", "#e3f2fd");
-    }
-
-    if (theme === "dark") {
-        root.style.setProperty("--primary", "#111827");
-        root.style.setProperty("--primary-light", "#4b5563");
-        root.style.setProperty("--primary-soft", "#1f2937");
-    }
-
-    if (theme === "neon") {
-        root.style.setProperty("--primary", "#00e5ff");
-        root.style.setProperty("--primary-light", "#00ff95");
-        root.style.setProperty("--primary-soft", "#022c22");
-    }
-
-    currentTheme = theme;
-    localStorage.setItem("theme", theme);
-
-    document.querySelectorAll(".theme-btn").forEach(btn => btn.classList.remove("active"));
-    const activeBtn = document.querySelector(`.theme-${theme}`);
-    if (activeBtn) activeBtn.classList.add("active");
-
-    updateCharts();
-}
-
-function setTheme(theme) {
-    applyTheme(theme);
-}
-
-/* ---------------------------------------------------------
-   SIDEBAR + NAVIGATION
+   SIDEBAR
 --------------------------------------------------------- */
 
 function toggleSidebar() {
     document.getElementById("sidebar").classList.toggle("open");
 }
+
+/* ---------------------------------------------------------
+   PAGE NAVIGATION
+--------------------------------------------------------- */
 
 function showPage(pageId) {
     document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
@@ -105,6 +56,56 @@ function showPage(pageId) {
     }
 
     if (pageId === "dashboard") updateCharts();
+}
+
+/* ---------------------------------------------------------
+   DARK MODE
+--------------------------------------------------------- */
+
+function applyDarkModeFromStorage() {
+    const mode = localStorage.getItem("darkMode");
+    if (mode === "on") document.body.classList.add("dark");
+}
+
+function toggleDarkMode() {
+    document.body.classList.toggle("dark");
+    localStorage.setItem("darkMode", document.body.classList.contains("dark") ? "on" : "off");
+}
+
+/* ---------------------------------------------------------
+   THEMES
+--------------------------------------------------------- */
+
+function applyTheme(theme) {
+    const root = document.documentElement;
+
+    if (theme === "dark") {
+        root.style.setProperty("--accent", "#4ea1ff");
+        root.style.setProperty("--accent-strong", "#6bb6ff");
+    }
+
+    if (theme === "blue") {
+        root.style.setProperty("--accent", "#1976d2");
+        root.style.setProperty("--accent-strong", "#42a5f5");
+    }
+
+    if (theme === "neon") {
+        root.style.setProperty("--accent", "#00eaff");
+        root.style.setProperty("--accent-strong", "#00ffc8");
+    }
+
+    currentTheme = theme;
+    localStorage.setItem("theme", theme);
+
+    document.querySelectorAll(".theme-btn").forEach(btn => btn.classList.remove("active"));
+    const activeBtn = document.querySelector(`.theme-${theme}`);
+    if (activeBtn) activeBtn.classList.add("active");
+
+    updateCharts();
+}
+
+function setTheme(theme) {
+    applyTheme(theme);
 }
 
 /* ---------------------------------------------------------
@@ -205,7 +206,7 @@ function updateDisplay() {
         if (list) {
             const li = document.createElement("li");
             li.innerHTML = `
-                <span style="color:${isPR ? '#00e5ff' : 'inherit'}">
+                <span style="color:${isPR ? 'var(--accent)' : 'inherit'}">
                     <strong>${set.exercise}</strong> —
                     ${set.weight} lbs × ${set.reps} reps × ${set.sets} sets
                     ${isPR ? "🔥 PR" : ""}
@@ -329,8 +330,12 @@ function initCharts() {
             data: { labels: [], datasets: [{ label: "Volume", data: [], borderWidth: 2, fill: true }] },
             options: {
                 responsive: true,
+                animation: { duration: 600 },
                 plugins: { legend: { display: false } },
-                scales: { x: { ticks: { color: "#6b7280" } }, y: { ticks: { color: "#6b7280" } } }
+                scales: {
+                    x: { ticks: { color: "#8b949e" } },
+                    y: { ticks: { color: "#8b949e" } }
+                }
             }
         });
     }
@@ -341,8 +346,12 @@ function initCharts() {
             data: { labels: [], datasets: [{ label: "Sets", data: [], borderWidth: 1 }] },
             options: {
                 responsive: true,
+                animation: { duration: 600 },
                 plugins: { legend: { display: false } },
-                scales: { x: { ticks: { color: "#6b7280" } }, y: { ticks: { color: "#6b7280" } } }
+                scales: {
+                    x: { ticks: { color: "#8b949e" } },
+                    y: { ticks: { color: "#8b949e" } }
+                }
             }
         });
     }
@@ -353,8 +362,12 @@ function initCharts() {
             data: { labels: [], datasets: [{ label: "Best Weight", data: [], borderWidth: 2, fill: false }] },
             options: {
                 responsive: true,
+                animation: { duration: 600 },
                 plugins: { legend: { display: false } },
-                scales: { x: { ticks: { color: "#6b7280" } }, y: { ticks: { color: "#6b7280" } } }
+                scales: {
+                    x: { ticks: { color: "#8b949e" } },
+                    y: { ticks: { color: "#8b949e" } }
+                }
             }
         });
     }
@@ -369,23 +382,23 @@ function updateCharts() {
     const sets = buildSetsPerExerciseData();
     const pr = buildDailyBestWeightData();
 
-    const primary = getComputedStyle(document.documentElement).getPropertyValue("--primary").trim();
-    const primaryLight = getComputedStyle(document.documentElement).getPropertyValue("--primary-light").trim();
+    const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim();
+    const accentSoft = getComputedStyle(document.documentElement).getPropertyValue("--accent-soft").trim();
 
     volumeChart.data.labels = vol.labels;
     volumeChart.data.datasets[0].data = vol.data;
-    volumeChart.data.datasets[0].borderColor = primary;
-    volumeChart.data.datasets[0].backgroundColor = primaryLight + "33";
+    volumeChart.data.datasets[0].borderColor = accent;
+    volumeChart.data.datasets[0].backgroundColor = accentSoft;
     volumeChart.update();
 
     setsChart.data.labels = sets.labels;
     setsChart.data.datasets[0].data = sets.data;
-    setsChart.data.datasets[0].backgroundColor = primary;
+    setsChart.data.datasets[0].backgroundColor = accent;
     setsChart.update();
 
     prChart.data.labels = pr.labels;
     prChart.data.datasets[0].data = pr.data;
-    prChart.data.datasets[0].borderColor = primaryLight;
+    prChart.data.datasets[0].borderColor = accent;
     prChart.update();
 }
 
